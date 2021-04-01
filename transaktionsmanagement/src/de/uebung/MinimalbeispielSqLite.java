@@ -11,7 +11,7 @@ public class MinimalbeispielSqLite {
 
 	public static void main(String[] args) {
 		final String url = "jdbc:sqlite:helloFHDW.sqlite.db";
-
+		//"jdbc:postgresql://localhost/test?user=transaktionsmanagement&password=Apfelkuchen?!"
 		try (final Connection conn = DriverManager.getConnection(url)) {
 			System.out.println("Verbunden mit der DB " + url);
 			
