@@ -6,8 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/eclipse-workspace11/transaktionsmanagement/mariadb-java-client-2.7.2.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse-workspace11/transaktionsmanagement/postgresql-42.2.19.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse-workspace11/transaktionsmanagement/sqlite-jdbc-3.34.0.jar"/>
+	<classpathentry kind="lib" path="mariadb-java-client-2.7.2.jar"/>
+	<classpathentry kind="lib" path="postgresql-42.2.19.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.34.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
