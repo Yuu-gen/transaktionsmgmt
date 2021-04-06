@@ -17,10 +17,10 @@ public class MinimalbeispielSQLKoepp {
 	public static void main(String[] args) {
 		// final String url = "jdbc:sqlite:helloFhdw.sqlite.db";
 		final String mysqliteURL = "jdbc:sqlite:helloFhdw.sqlite.db";
-		final String mariadbURL = "jdbc:mariadb://localhost:3306/test?user=transaktionsmanagemenet&password=Apfelkuchen?!";
+		final String mariadbURL = "jdbc:mariadb://localhost:3306/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		final String postgreSQLURL = "jdbc:postgresql://localhost/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		
-		final String url = mysqliteURL;
+		final String url = mariadbURL;
 		try (final Connection conn = DriverManager.getConnection(url)) {
 			System.out.println("Verbunden mit Datenbank " + url);
 			

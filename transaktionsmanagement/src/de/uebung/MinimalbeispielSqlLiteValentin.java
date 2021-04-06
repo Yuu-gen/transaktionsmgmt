@@ -17,7 +17,7 @@ public class MinimalbeispielSqlLiteValentin {
 	public static void main(String[] args) {
 		
 		final String mysqliteURL = "jdbc:sqlite:helloFhdw.sqlite.db";
-		final String mariadbURL = "jdbc:mariadb://localhost:3306/test?user=transaktionsmanagemenet&password=Apfelkuchen?!";
+		final String mariadbURL = "jdbc:mariadb://localhost:3306/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		final String postgreSQLURL = "jdbc:postgresql://localhost/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		
 		try ( final Connection conn = DriverManager.getConnection(postgreSQLURL)) {
