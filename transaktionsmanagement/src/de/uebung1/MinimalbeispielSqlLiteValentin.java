@@ -1,4 +1,4 @@
-package de.uebung;
+package de.uebung1;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

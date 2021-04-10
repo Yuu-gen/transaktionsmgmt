@@ -1,4 +1,4 @@
-package de.uebung;
+package de.uebung1;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -20,7 +20,7 @@ public class MinimalbeispielSQLKoepp {
 		final String mariadbURL = "jdbc:mariadb://localhost:3306/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		final String postgreSQLURL = "jdbc:postgresql://localhost/test?user=transaktionsmanagement&password=Apfelkuchen?!";
 		
-		final String url = mariadbURL;
+		final String url = postgreSQLURL;
 		try (final Connection conn = DriverManager.getConnection(url)) {
 			System.out.println("Verbunden mit Datenbank " + url);
 			
