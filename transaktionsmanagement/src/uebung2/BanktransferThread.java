@@ -88,7 +88,7 @@ public class BanktransferThread extends Thread {
 			this.transfercount++;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			
+			//e.printStackTrace();
 		}
 	}	
 
