@@ -33,7 +33,7 @@ public class BanktransferThread extends Thread {
 			bankTransfer(conn, this.sourceAccount, 
 					this.targetAccount, this.amount);
 			}
-			System.out.printf("%s hat %d Updates (2 pro Überweisung) ausgeführt.%n", this.getName(),this.transfercount);
+			System.out.printf("%s hat %d Überweisungen ausgeführt.%n", this.getName(),this.transfercount/2);
 		}catch (SQLException e) {
 			// TODO: handle exception
 		}
