@@ -40,8 +40,8 @@ public class BankTransferTransaktionThread extends Thread {
 	
 	@Override
 	public void run() {
-		try(Connection conn = this.conn){
-		//try(Connection conn = DriverManager.getConnection(this.connectionString)){
+		//try(Connection conn = this.conn){
+		try(Connection conn = DriverManager.getConnection(this.connectionString)){
 			for (int i = 0; i < 1000; i++) {
 			bankTransfer(conn, this.sourceAccount, 
 					this.targetAccount, this.amount);
@@ -75,6 +75,7 @@ public class BankTransferTransaktionThread extends Thread {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//System.err.println(e.getErrorCode());
+			//e.printStackTrace();
 			try {
 				
 				conn.rollback();
@@ -82,8 +83,9 @@ public class BankTransferTransaktionThread extends Thread {
 				//System.out.println("ROLLBACK");
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
+				//e1.printStackTrace();
 				//System.err.println(e1.getErrorCode());
-				System.out.println("Couldn't rollback. You are on your own now.");
+				//System.out.println("Couldn't rollback. You are on your own now.");
 			}
 		}
 		
