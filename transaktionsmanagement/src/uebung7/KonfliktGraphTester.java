@@ -61,9 +61,8 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 		default:
 			break;
 		}
-		
+		//Erstellen des erweiterten Graph2
 		Set<IntegerTuple> newGraph = this.addNewAndTransitiveElementsToGraph(this.graph, newElements);
-		
 		//Prüfen des Graphen und newElements 
 		//inklusive transitiver Tupel auf Zyklen
 		if(checkIfGraphHasCycles(newGraph)) {
@@ -72,9 +71,7 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 			this.removeAbortedTransitions(i);	
 		}else {
 			//Keine Zyklen
-			this.commandExecute(k, i);
-			
-			
+			this.commandExecute(k, i);	
 		}
 		
 	}
