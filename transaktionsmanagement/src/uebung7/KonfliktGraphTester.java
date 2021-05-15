@@ -27,7 +27,7 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 	@Override
 	public void process(Kommando k, int i) {
 		Set<IntegerTuple> newElements = new HashSet<IntegerTuple>();
-		DatenelementKommando c = (DatenelementKommando) k;
+		
 		switch (k.getTyp()) {
 		case COMMIT:
 			//Wenn K = commit, Verarbeiten und k in finished
@@ -36,21 +36,23 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 			return;
 		case READ:
 			//Wenn K = read, 
-			checkForNewDataElements(c);
-			readSet.get(c.getX()).add(i);
-			for (Integer oldWrite : this.writeSet.get(c.getX())) {
+			DatenelementKommando r = (DatenelementKommando) k;
+			checkForNewDataElements(r);
+			readSet.get(r.getX()).add(i);
+			for (Integer oldWrite : this.writeSet.get(r.getX())) {
 				newElements.add(new IntegerTuple(oldWrite, i));
 			}	
 			break;
 		case WRITE:	
-			checkForNewDataElements(c);
-			writeSet.get(c.getX()).add(i);
+			DatenelementKommando w = (DatenelementKommando) k;
+			checkForNewDataElements(w);
+			writeSet.get(w.getX()).add(i);
 			//(w,i), für alle w aus write(x)
-			for (Integer oldWrite : this.writeSet.get(c.getX())) {
+			for (Integer oldWrite : this.writeSet.get(w.getX())) {
 				newElements.add(new IntegerTuple(oldWrite, i));
 			}
 			//(r,i), wenn r!=i und r aus read(x)
-			for (Integer oldRead : this.writeSet.get(c.getX())) {
+			for (Integer oldRead : this.writeSet.get(w.getX())) {
 				if(oldRead!=i) {
 					newElements.add(new IntegerTuple(oldRead, i));
 				}
@@ -60,11 +62,11 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 			break;
 		}
 		
-		Set<IntegerTuple> newGraph = this.graph;
+		Set<IntegerTuple> newGraph = this.addNewAndTransitiveElementsToGraph(this.graph, newElements);
 		
 		//Prüfen des Graphen und newElements 
 		//inklusive transitiver Tupel auf Zyklen
-		if(checkIfGraphHasCycles(newElements)) {
+		if(checkIfGraphHasCycles(newGraph)) {
 			//Wenn Zyklen da sind
 			this.commandIgnore(k, i);
 			this.removeAbortedTransitions(i);	
@@ -83,7 +85,7 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 	 * @param newElements
 	 * @return
 	 */
-	private Set<IntegerTuple> addNewAndTransitiveElementsToGraph(Set<IntegerTuple> oldGraph, Set<IntegerTuple> newElements){
+	protected Set<IntegerTuple> addNewAndTransitiveElementsToGraph(Set<IntegerTuple> oldGraph, Set<IntegerTuple> newElements){
 		Set<IntegerTuple> newGraph = new HashSet<IntegerTuple>(oldGraph);
 		for (IntegerTuple newTuple : newElements) {
 			newGraph.add(newTuple);
@@ -93,15 +95,16 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 	}
 	
 	/**
-	 * Rekursiv, sucht für jedes Tupel einer gegebenen Menge nach transitiven Relationen einer gegeben 
+	 * Rekursiv, sucht für jedes Tupel einer gegebenen Menge nach transitiven Relationen zu einer Integer transitiveEnd
+	 * Die currentNode verweist dabei jeweils auf das aktuelle Bindungsglied zum transitiveEnd
+	 * Terminiert, wenn oldGraph leer ist.
 	 * @param oldGraph
 	 * @param currentNode
 	 * @param transitiveEnd
 	 * @return
 	 */
-	private Set<IntegerTuple> findTransitiveRelations(Set<IntegerTuple> oldGraph, Integer currentNode, Integer transitiveEnd){
+	protected Set<IntegerTuple> findTransitiveRelations(Set<IntegerTuple> oldGraph, Integer currentNode, Integer transitiveEnd){
 		Set<IntegerTuple> transitiveElements = new HashSet<IntegerTuple>();
-		
 		for (IntegerTuple oldTuple : oldGraph) {
 			if(currentNode==oldTuple.getSecond()) {
 				transitiveElements.add(new IntegerTuple(oldTuple.getSecond(), transitiveEnd));
@@ -112,12 +115,15 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 			
 		}
 		return transitiveElements;
-		
 	}
 	
 	
-	private Boolean checkIfGraphHasCycles(Set<IntegerTuple> newElements) {
-		
+	protected Boolean checkIfGraphHasCycles(Set<IntegerTuple> extendedGraph) {
+		for (IntegerTuple tuple : extendedGraph) {
+			if(extendedGraph.contains(new IntegerTuple(tuple.getSecond(), tuple.getFirst()))) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -153,6 +159,9 @@ public class KonfliktGraphTester extends AbstractKonfliktGraphTester {
 	private void checkForNewDataElements(DatenelementKommando k) {
 		if(!writeSet.containsKey(k.getX())) {
 			writeSet.put(k.getX(), new HashSet<Integer>());
+		}
+		if(!readSet.containsKey(k.getX())) {
+			readSet.put(k.getX(), new HashSet<Integer>());
 		}
 	}
 	
